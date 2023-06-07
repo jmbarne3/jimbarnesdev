@@ -1,28 +1,31 @@
 ---
-title: Creating a Private Packagist and Hosting on GitHub
+title: Creating a Private Composer Repository on GitHub
+description: Learn how to setup a private composer repository and host it for free on GitHub Pages.
 date: 2023-06-05 08:00:00 -0400
 categories: [DevOps, Package Management]
-tags: [php, packagist, automation, github pages]
-img_path: /assets/images/posts/private-packagist-github/
+tags: [php, composer, packagist, automation, github pages]
+img_path: /assets/images/posts/private-composer-github/
 image:
-  path: hero.png
-  alt: Programmer typing on keyboard
+  path: hero.jpg
+  alt:
+redirect_from:
+  - /posts/private-packagist-github
 ---
-If your organization has internal PHP packages that need to be distributed, but you don't feel comfortable hosting them on <a href="https://packagist.org/" target="_blank" rel="nofollow">Packagist</a>, hosting your own private packagist can be a good solution.
+If your organization has internal PHP packages that need to be distributed, but you don't feel comfortable hosting them on <a href="https://packagist.org/" target="_blank" rel="nofollow">Packagist</a>, hosting your own private composer repository can be a good solution.
 
-This article will walk through the steps of setting up a private packagist repository hosted on <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>, using the <a href="https://github.com/composer/satis" target="_blank" rel="nofollow">Satis package</a>. We'll go through setting up the project, adding some initial repositories and reviewing the basic commands for adding, updating and removing packages. In future posts, we'll work on automating updates using GitHub workflows.
+This article will walk through the steps of setting up a private composer repository hosted on <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>, using the <a href="https://github.com/composer/satis" target="_blank" rel="nofollow">Satis package</a>. We'll go through setting up the project and getting it up and running on GitHub Pages. In future posts, we'll work on adding and updating packages and automating those processes using GitHub workflows.
 
 ## Setting Up the Repository
 
 To get setup, you'll want to ensure you have a <a href="https://www.php.net/supported-versions.php" target="_blank" rel="nofollow">supported version of PHP</a> and <a href="https://getcomposer.org/" target="_blank" rel="nofollow">composer</a> installed. Choose a project location, create the directory and run the initialization script provided by Satis.
 
 ```bash
-$ mkdir ~/Projects/packagist-repo
-$ composer create-project composer/satis:dev-main ~/Projects/packagist-repo
-$ cd ~/Projects/packagist-repo
+$ mkdir ~/Projects/composer-repo
+$ composer create-project composer/satis:dev-main ~/Projects/composer-repo
+$ cd ~/Projects/composer-repo
 ```
 
-This will generate the boilerplate code necessary to manage the project. Since we will ultimatey be hosting this repository on Github, let's go ahead and initialize the repository and add a `.gitignore` file.
+This will generate the boilerplate code necessary to manage the project. Since we will ultimately be hosting this repository on Github, let's go ahead and initialize the repository and add a `.gitignore` file.
 
 ```bash
 $ git init
@@ -41,7 +44,7 @@ composer.phar
 
 ### Initializing Satis
 
-At this point we need to decide where our repository will be hosted. If you're not using a custom domain, the site will be hosted at a default location that uses the pattern `https://<username>.github.io/<respository-name>`. So with the username of "bobby" and the repository name "packagist-repo", the site would be hosted at `https://bobby.github.io/packagist-repo`. We'll use that username/repo combination in the example code below.
+At this point we need to decide where our repository will be hosted. If you're not using a custom domain, the site will be hosted at a default location that uses the pattern `https://<username>.github.io/<respository-name>`. So with the username of "bilbo" and the repository name "composer-repo", the site would be hosted at `https://bilbo.github.io/composer-repo`. We'll use that username/repo combination in the example code below.
 
 To initialize the repository, we'll use a built-in command:
 
@@ -52,8 +55,8 @@ $ php bin/satis init
 
 This command will guide you through creating your Satis config.
 
-Repository name: bobby/packagist-repo
-Home page: https://bobby.github.io/packagist-repo
+Repository name: bilbo/composer-repo
+Home page: https://bilbo.github.io/composer-repo
 
   Your configuration file successfully created!
 
@@ -65,8 +68,8 @@ This will create a `satis.json` file in the root of your project. This is where 
 
 ```json
 {
-    "name": "bobby/packagist-repo",
-    "homepage": "https://bobby.github.io/packagist-repo",
+    "name": "bilbo/composer-repo",
+    "homepage": "https://bilbo.github.io/composer-repo",
     "repositories": [],
     "require-all": true
 }
@@ -111,7 +114,7 @@ It will include an index page and a directory named `include/` that will have th
 ```bash
 $ git add --all
 $ git commit -m "Initial commit"
-$ git remote add origin git@github.com:bobby/packagist-repo.git
+$ git remote add origin git@github.com:bilbo/composer-repo.git
 $ git push -u -f origin main
 ```
 
@@ -131,7 +134,7 @@ Once you've clicked the Save button, the initialization process will begin. Once
 
 ## Final Thoughts
 
-If you've made it this far, congratulations! You now have a working packagist repository hosted on GitHub pages. Of course, we haven't yet added any packages to our repository, but we will be knocking that out in my next post, along with some basic automation using GitHub workflows.
+If you've made it this far, congratulations! You now have a working composer repository hosted on GitHub pages. Of course, we haven't yet added any packages to our repository, but we will be knocking that out in my next post, along with some basic automation using GitHub workflows.
 
 To review, we were able to accomplish the following in this article:
 
