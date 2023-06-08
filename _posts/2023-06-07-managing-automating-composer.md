@@ -1,6 +1,6 @@
 ---
 title: Managing and Automating You Composer Packages - Part 1
-description: Learn how to setup a private composer repository and host it for free on GitHub Pages.
+description: Automate adding and updating packages within your private composer repository using GitHub workflows.
 date: 2023-06-07 08:00:00 -0400
 categories: [DevOps, Package Management]
 tags: [php, composer, packagist, automation, github pages]
