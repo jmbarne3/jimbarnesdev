@@ -4,10 +4,12 @@ description: Automate adding and updating packages within your private composer 
 date: 2023-06-07 08:00:00 -0400
 categories: [DevOps, Package Management]
 tags: [php, composer, packagist, automation, github pages]
-img_path: /assets/images/posts/managing-automating-composer/
+img_path: /assets/images/posts/managing-automating-composer-part-1/
 image:
   path: hero.jpg
   alt:
+redirect_from:
+  - /posts/managing-automating-composer/
 ---
 A core goal of any DevOps configuration is to minimize the the time spent on repetitive, predictable and easily performed tasks through automation. In our article on [Creating a Private Composer Repository on GitHub]({% post_url 2023-06-05-private-composer-github %}), we setup a composer repository using Satis and setup hosting using GitHub pages. In this article, we'll go over how to add, update and archive packages from the repository, and then automate some of those tasks using GitHub Workflows.
 
@@ -312,6 +314,35 @@ We have one input for this workflow, `package` which represents the package name
 2. Run the partial rebuild with the provided GitHub token and the package name passed as inputs
 3. Setup the environment variables for the commit
 4. Commit to the code back to the repository
+
+## Using Your Repository
+
+Now that we have a working composer repository, we'll want to use it in one of our projects. Setup a new project that will use composer to install the packages and initialize your composer file through whatever means you usually do. To tell composer to look in your repository for packages, you'll need to add it to the `repository` list and add the packages into your `require` or `require-dev` properties, as needed.
+
+```json
+{
+  "name": "bilbo/there-and-back-again",
+  "description": "A hobbit's holiday",
+  "require": {
+    "bilbo/dragon-charmer": "*",
+    "bilbo/riddle-generator": "*"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://bilbo.github.io/composer-repo/"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  }
+}
+```
+{: file="composer.json" }
+
+Provided everything is setup correctly within your package repositories, you should now be able to run `composer update` and see your packages install in the default `/vendor` path.
 
 ## Final Thoughts
 
