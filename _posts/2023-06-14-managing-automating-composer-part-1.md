@@ -150,9 +150,9 @@ If you're new to GitHub workflows, [GitHub's documentation](https://docs.github.
 
 We will be using three actions in our private composer repository:
 
-- [Satis - Add Package](https://github.com/UCF/satis-add-package)
+- [Satis - Add Package](https://github.com/jmbarne3/satis-add-package)
 - [Satis - Build](https://github.com/dev-this/satis-build/)
-- [Satis - Partial Build Action](https://github.com/UCF/satis-partial-build)
+- [Satis - Partial Build Action](https://github.com/jmbarne3/satis-partial-build)
 
 To add a new workflow, you'll want to create a directory within your composer repository named `.github/workflows/`. In this directory you'll add YAML files for each workflow you want to use. For example, for adding packages you might add a `add-package.yaml`. You'll name the workflow within the file itself, so the file name is mostly for your reference as a developer to be able to quickly locate a workflow.
 
@@ -177,7 +177,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: UCF/satis-add-package@v1
+      - uses: jmbarne3/satis-add-package@v1
         with:
           token: ${{ github.token }} # App/OAuth token, PAT
           package_url: ${{ inputs.package_url }}
@@ -198,7 +198,7 @@ Let's walk through the various sections of the YAML file and talk about what's g
 
 The `on` property configures when and how this workflow gets triggered. There are all kind of triggers that can be used to kick off a workflow, but in this case we're going to use `workflow_dispatch`, which is a fancy way of saying "when I manually kick off the workflow". Specifically, GitHub will add a "Run Workflow" button to the GUI along with the `inputs` that are provided directly underneath the `workflow_dispatch` trigger type. In addition, the workflow can be triggered via the GitHub API along with the inputs provided from another repository or an automated process.
 
-In this example, we have two inputs: `package_url` and `package_name`. These two inputs are provided to the `UCF/satis-add-package@v1` action as parameters. Ultimately, that action ends up running the following command: `php bin/satis add ${package_url} --name${package_name}` - which should [look familiar](#adding-a-new-package)!
+In this example, we have two inputs: `package_url` and `package_name`. These two inputs are provided to the `jmbarne3/satis-add-package@v1` action as parameters. Ultimately, that action ends up running the following command: `php bin/satis add ${package_url} --name${package_name}` - which should [look familiar](#adding-a-new-package)!
 
 ![Screenshot of the Add Package UI within GitHub](add-package.jpg)
 
@@ -210,7 +210,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: UCF/satis-add-package@v1
+      - uses: jmbarne3/satis-add-package@v1
         with:
           token: ${{ github.token }} # App/OAuth token, PAT
           package_url: ${{ inputs.package_url }}
@@ -292,7 +292,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: UCF/satis-partial-build@v1
+      - uses: jmbarne3/satis-partial-build@v1
         with:
           token: ${{ github.token }} # App/OAuth token, PAT
           package: ${{ inputs.package }}
