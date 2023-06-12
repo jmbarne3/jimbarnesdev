@@ -1,7 +1,7 @@
 ---
 title: Managing and Automating You Composer Packages - Part 2
 description: Trigger composer repository updates from other repositories and deploying repository secrets.
-date: 2023-06-09 08:00:00 -0400
+date: 2023-06-16 08:00:00 -0400
 categories: [DevOps, Package Management]
 tags: [php, composer, packagist, automation, github pages]
 img_path: /assets/images/posts/managing-automating-composer-part-2/
