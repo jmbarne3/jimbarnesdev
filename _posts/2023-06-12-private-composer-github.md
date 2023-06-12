@@ -1,7 +1,7 @@
 ---
 title: Creating a Private Composer Repository on GitHub
 description: Learn how to setup a private composer repository and host it for free on GitHub Pages.
-date: 2023-06-05 08:00:00 -0400
+date: 2023-06-12 08:00:00 -0400
 categories: [DevOps, Package Management]
 tags: [php, composer, packagist, automation, github pages]
 img_path: /assets/images/posts/private-composer-github/
