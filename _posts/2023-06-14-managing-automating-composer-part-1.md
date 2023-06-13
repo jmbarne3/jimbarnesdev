@@ -1,7 +1,7 @@
 ---
-title: Managing and Automating You Composer Packages - Part 1
+title: Managing and Automating Your Composer Packages - Part 1
 description: Automate adding and updating packages within your private composer repository using GitHub workflows.
-date: 2023-06-14 08:00:00 -0400
+date: 2023-06-14 06:00:00 -0400
 categories: [DevOps, Package Management]
 tags: [php, composer, packagist, automation, github pages]
 img_path: /assets/images/posts/managing-automating-composer-part-1/
@@ -11,7 +11,7 @@ image:
 redirect_from:
   - /posts/managing-automating-composer/
 ---
-A core goal of any DevOps configuration is to minimize the the time spent on repetitive, predictable and easily performed tasks through automation. In our article on [Creating a Private Composer Repository on GitHub]({% post_url 2023-06-12-private-composer-github %}), we setup a composer repository using Satis and setup hosting using GitHub pages. In this article, we'll go over how to add, update and archive packages from the repository, and then automate some of those tasks using GitHub Workflows.
+A core goal of any DevOps configuration is to minimize the time spent on repetitive, predictable and easily performed tasks through automation. In our article on [Creating a Private Composer Repository on GitHub]({% post_url 2023-06-12-private-composer-github %}), we set up a composer repository using Satis and set up hosting using GitHub pages. In this article, we'll go over how to add, update and archive packages from the repository, and then automate some of those tasks using GitHub Workflows.
 
 ## Managing the Repository using Satis
 
@@ -31,7 +31,7 @@ The Satis package provides us with several commands for managing the packages wi
 
 ### Understanding the `satis.json` File
 
-The `satis.json` file acts as the primary configuration file for the composer repository. If you followed along with the previous post, your the file should look something like the following:
+The `satis.json` file acts as the primary configuration file for the composer repository. If you followed along with the previous post, your file should look something like the following:
 
 ```json
 {
@@ -61,9 +61,9 @@ We'll be adding some entries to the `repositories` array. At a very minimum, eac
 }
 ```
 
-It's important to note that the "name" property determine's what the package name must be used for anyone consuming your package. If this is not set, the package name provided in the repository's `composer.json` file will be used when the repository if generated. However, if the name is set in the `satis.json` file, the name configured there will be preferred over whatever the package name in the remote repository is.
+It's important to note that the "name" property determines what package name must be used for anyone consuming your package. If this is not set, the package name provided in the repository's `composer.json` file will be used when the repository is generated. However, if the name is set in the `satis.json` file, the name configured there will be preferred over whatever the package name in the remote repository is.
 
-We could go ahead and add Bilbo's other 2 repository, but let's take a look at using Satis's built-in command for adding packages, as we'll leverage this later for automation purposes.
+We could go ahead and add Bilbo's other 2 repositories, but let's take a look at using Satis's built-in command for adding packages, as we'll leverage this later for automation purposes.
 
 ### Adding a New Package
 
@@ -74,7 +74,7 @@ $ php bin/satis add https://github.com/bilbo/shire-pipeweed-ranker/ --name=bilbo
 $ php bin/satis add https://github.com/bilbo/dragon-charmer/ --name=bilbo/dragon-charmer
 ```
 
-After running each add command, you should see the entries added into the `satis.json` file. You'll end up with a file looking something like this:
+After running each add command, you should see the entries added to the `satis.json` file. You'll end up with a file looking something like this:
 
 ```json
 {
@@ -102,11 +102,11 @@ After running each add command, you should see the entries added into the `satis
 }
 ```
 
-Each command should also prompt Satis to regenerate the site files, adding new JSON files for each package, as well as updating the `all.json` file. If you've pointed to active projects, you should see tags for every branch and tag that has a composer file present in the available versions for each package.
+Each command should also prompt Satis to regenerate the site files, add new JSON files for each package, as well as updating the `all.json` file. If you've pointed to active projects, you should see tags for every branch and tag that has a composer file present in the available versions for each package.
 
 ### Updating All Packages
 
-So, the repository is setup and all the current branches and versions showing up in the package list. What do we do when a new branch or tag is created on one of the projects? That's where the `build` command comes into play. By default, the `build` command will rebuild the entire repository. This means it needs to go out to every repository listed in your `satis.json`'s "repository" array, search through all the branches and tags to see if there's a composer file present, and then add that branch or tag to the available versions of the package.
+So, the repository is set up and all the current branches and versions show up in the package list. What do we do when a new branch or tag is created on one of the projects? That's where the `build` command comes into play. By default, the `build` command will rebuild the entire repository. This means it needs to go out to every repository listed in your `satis.json`'s "repository" array, search through all the branches and tags to see if there's a composer file present, and then add that branch or tag to the available versions of the package.
 
 > The `build` command can be an expensive operation, taking quite a long time to run depending on the number of repositories you have configured in your `satis.json` file. In addition, you'll eventually end up hitting GitHub's API rate limit if Satis has to make too many requests.
 >
@@ -144,9 +144,9 @@ After running each of these commands, we should see regenerated JSON files for e
 
 ## Creating GitHub Workflows
 
-Now that we have a good understanding of how to programmatically update the composer repository using the build-in Satis command, we can leverage that knowledge to automate some of these processes with GitHub workflows. We'll be using the commands described above to make the additions and updates, but having a workflow do the actual work and commit the results back to the repository.
+Now that we have a good understanding of how to programmatically update the composer repository using the built-in Satis command, we can leverage that knowledge to automate some of these processes with GitHub workflows. We'll be using the commands described above to make the additions and updates, but having a workflow do the actual work and commit the results back to the repository.
 
-If you're new to GitHub workflows, [GitHub's documentation](https://docs.github.com/en/actions/using-workflows/about-workflows) is pretty good place to get oriented. But to provide my own description in brief, GitHub Workflows are a set of actions, configured via a YAML file that's committed into the repository, that will spin up a small environment and execute a series of actions based on the configuration. The examples below will all be using prepared actions, so fully understanding how these work isn't really necessary. You really just need to understand that an action is a step within your workflow that can be configured using parameters, that will set itself up an execution environment, execute the action, and then tear down the environment.
+If you're new to GitHub workflows, [GitHub's documentation](https://docs.github.com/en/actions/using-workflows/about-workflows) is a pretty good place to get oriented. But to provide my description in brief, GitHub Workflows are a set of actions, configured via a YAML file that's committed into the repository, that will spin up a small environment and execute a series of actions based on the configuration. The examples below will all be using prepared actions, so fully understanding how this works isn't really necessary. You just need to understand that an action is a step within your workflow that can be configured using parameters, that will set up an execution environment, execute the action, and then tear down the environment.
 
 We will be using three actions in our private composer repository:
 
@@ -154,11 +154,11 @@ We will be using three actions in our private composer repository:
 - [Satis - Build](https://github.com/dev-this/satis-build/)
 - [Satis - Partial Build Action](https://github.com/jmbarne3/satis-partial-build)
 
-To add a new workflow, you'll want to create a directory within your composer repository named `.github/workflows/`. In this directory you'll add YAML files for each workflow you want to use. For example, for adding packages you might add a `add-package.yaml`. You'll name the workflow within the file itself, so the file name is mostly for your reference as a developer to be able to quickly locate a workflow.
+To add a new workflow, you'll want to create a directory within your composer repository named `.github/workflows/`. In this directory, you'll add YAML files for each workflow you want to use. For example, for adding packages you might add an `add-package.yml`. You'll name the workflow within the file itself, so the file name is mostly for your reference as a developer to be able to quickly locate a workflow.
 
 ### New Package Workflow
 
-Add a file to the `.github/workflows` directory named `add-package.yaml` and copy and paste the following into the file:
+Add a file to the `.github/workflows` directory named `add-package.yml` and copy and paste the following into the file:
 
 ```yaml
 name: Add Package
@@ -196,7 +196,7 @@ jobs:
 
 Let's walk through the various sections of the YAML file and talk about what's going on. The "name" property provides a friendly name for GitHub. Whenever a workflow runs, this is how it will be identified in the GUI.
 
-The `on` property configures when and how this workflow gets triggered. There are all kind of triggers that can be used to kick off a workflow, but in this case we're going to use `workflow_dispatch`, which is a fancy way of saying "when I manually kick off the workflow". Specifically, GitHub will add a "Run Workflow" button to the GUI along with the `inputs` that are provided directly underneath the `workflow_dispatch` trigger type. In addition, the workflow can be triggered via the GitHub API along with the inputs provided from another repository or an automated process.
+The `on` property configures when and how this workflow gets triggered. All kinds of triggers can be used to kick off a workflow, but in this case, we're going to use `workflow_dispatch`, which is a fancy way of saying "when I manually kick off the workflow". Specifically, GitHub will add a "Run Workflow" button to the GUI along with the `inputs` that are provided directly underneath the `workflow_dispatch` trigger type. In addition, the workflow can be triggered via the GitHub API along with the inputs provided from another repository or an automated process.
 
 In this example, we have two inputs: `package_url` and `package_name`. These two inputs are provided to the `jmbarne3/satis-add-package@v1` action as parameters. Ultimately, that action ends up running the following command: `php bin/satis add ${package_url} --name${package_name}` - which should [look familiar](#adding-a-new-package)!
 
@@ -227,22 +227,22 @@ jobs:
           git push
 ```
 
-A single job named "build" running on "ubuntu-latest" will run a couple of steps. The "steps" block represents a series of steps that run for the job. The first two lines define pre-built actions that we want to run. You can call these pre-built actions using the "uses" property. The first `actions/checkout@v2` ensures that our repository - the repository this workflow is running on - is checked out. This makes sure we're running against the current code of whichever branch this workflow is running against.
+A single job named "build" running on "ubuntu-latest" will run a couple of steps. The "steps" block represents a series of steps that run for the job. The first two lines define the pre-built actions that we want to run. You can call these pre-built actions using the "uses" property. The first `actions/checkout@v2` ensures that our repository - the repository this workflow is running on - is checked out. This makes sure we're running against the current code of whichever branch this workflow is running against.
 
-The next step is an action that run the `satis add` command. Because we need to provide a URL and name for our package - these two inputs are required by the action - we pass them in using the `inputs` variable. In addition, the action requires a `token` parameter. The variable `${{ github.token }}` is updated automatically depending on the context of how the workflow was triggered. If, for example, the workflow was triggered through the GitHub API, the token would be provided in the API request.
+The next step is an action that runs the `satis add` command. Because we need to provide a URL and name for our package - these two inputs are required by the action - we pass them in using the `inputs` variable. In addition, the action requires a `token` parameter. The variable `${{ github.token }}` is updated automatically depending on the context of how the workflow was triggered. If, for example, the workflow was triggered through the GitHub API, the token would be provided in the API request.
 
-The next line sets some environment variables for us so we can use them in the environment we'll be executing our `run` command on. Specifically, we want to set the `user.name` and `user.email` configurations on the environment so that when we commit our changes, that appear to have been committed by a particular user.
+The next line sets some environment variables for us so we can use them in the environment we'll be executing our `run` command on. Specifically, we want to set the `user.name` and `user.email` configurations on the environment so that when we commit our changes, they appear to have been committed by a particular user.
 
 > In my use of this workflow, I specifically set these to a service account we have for our organization. All automated commits created by workflows show up as the service user, immediately indicating to developers that it was an automated commit.
 {: .prompt-tip }
 
 Finally, the `run` step allows us to run shell commands on the build environment. We use this to add the changes to the repository, commit them along with a formatted message and then push them to the repository.
 
-Once you've created the `add-package.yaml` file, you can push it up to GitHub and should see the action available under the "Actions" tab. If you click on the "Add Package" action - or whatever you named it - you should see the "Run Workflow" toggle. Click on this, provide the input parameters, and click the "Run Workflow" button and enjoy the magic!
+Once you've created the `add-package.yml` file, you can push it up to GitHub and should see the action available under the "Actions" tab. If you click on the "Add Package" action - or whatever you named it - you should see the "Run Workflow" toggle. Click on this, provide the input parameters, and click the "Run Workflow" button and enjoy the magic!
 
 ### All Package Rebuild Workflow
 
-Next, we want to add a workflow that allows the entire repository to be built/rebuilt. Create a new workflow at `.github/workflows/full-build.yaml` and paste in the following configuration:
+Next, we want to add a workflow that allows the entire repository to be built/rebuilt. Create a new workflow at `.github/workflows/full-build.yml` and paste in the following configuration:
 
 ```yaml
 name: Full Composer Rebuild
@@ -269,13 +269,13 @@ jobs:
           git push
 ```
 
-This workflow is very similar to the [Add Package workflow](#new-package-workflow) but much more simple. Since, we're rebuilding the entire repository, there is no need for any input. It is also triggered on `workflow_dispatch`, meaning it can only be triggered via the GUI or the GitHub API.
+This workflow is very similar to the [Add Package workflow](#new-package-workflow) but much more simple. Since we're rebuilding the entire repository, there is no need for any input. It is also triggered on `workflow_dispatch`, meaning it can only be triggered via the GUI or the GitHub API.
 
-We're using the [`dev-this/satis-build@v1`](https://github.com/dev-this/satis-build/) package in this workflow, which is the action I based both the `satis-add-package` and `satis-partial-build` actions off of. Outside of that difference, note that the `run` step doesn't specifically add the `satis.json` file like the previous workflow, because this file shouldn't be changing in this workflow, only the HTML and JSON files within the `docs/` directory.
+We're using the [`dev-this/satis-build@v1`](https://github.com/dev-this/satis-build/) package in this workflow, which is the action I based both the `satis-add-package` and `satis-partial-build` actions on. Outside of that difference, note that the `run` step doesn't specifically add the `satis.json` file like the previous workflow, because this file shouldn't be changing in this workflow, only the HTML and JSON files within the `docs/` directory.
 
 ### Single Package Rebuild Workflow
 
-The single package workflow is also fairly simple, but is going to be a powerful tool moving forward. To get started, create a new workflow file at `.github/workflows/partial-build.yaml` and paste in the following:
+The single package workflow is also fairly simple but is going to be a powerful tool moving forward. To get started, create a new workflow file at `.github/workflows/partial-build.yml` and paste in the following:
 
 ```yaml
 name: Partial Composer Rebuild
@@ -313,11 +313,11 @@ We have one input for this workflow, `package` which represents the package name
 1. Checkout the code
 2. Run the partial rebuild with the provided GitHub token and the package name passed as inputs
 3. Setup the environment variables for the commit
-4. Commit to the code back to the repository
+4. Commit the code back to the repository
 
 ## Using Your Repository
 
-Now that we have a working composer repository, we'll want to use it in one of our projects. Setup a new project that will use composer to install the packages and initialize your composer file through whatever means you usually do. To tell composer to look in your repository for packages, you'll need to add it to the `repository` list and add the packages into your `require` or `require-dev` properties, as needed.
+Now that we have a working composer repository, we'll want to use it in one of our projects. Set up a new project that will use composer to install the packages and initialize your composer file through whatever means you usually do. To tell composer to look in your repository for packages, you'll need to add it to the `repository` list and add the packages into your `require` or `require-dev` properties, as needed.
 
 ```json
 {
@@ -342,7 +342,7 @@ Now that we have a working composer repository, we'll want to use it in one of o
 ```
 {: file="composer.json" }
 
-Provided everything is setup correctly within your package repositories, you should now be able to run `composer update` and see your packages install in the default `/vendor` path.
+Provided everything is set up correctly within your package repositories, you should now be able to run `composer update` and see your packages install in the default `/vendor` path.
 
 ## Final Thoughts
 

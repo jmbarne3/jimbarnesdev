@@ -1,7 +1,7 @@
 ---
 title: Creating a Private Composer Repository on GitHub
-description: Learn how to setup a private composer repository and host it for free on GitHub Pages.
-date: 2023-06-12 08:00:00 -0400
+description: Learn how to set up a private composer repository and host it for free on GitHub Pages.
+date: 2023-06-12 06:00:00 -0400
 categories: [DevOps, Package Management]
 tags: [php, composer, packagist, automation, github pages]
 img_path: /assets/images/posts/private-composer-github/
@@ -17,7 +17,7 @@ This article will walk through the steps of setting up a private composer reposi
 
 ## Setting Up the Repository
 
-To get setup, you'll want to ensure you have a <a href="https://www.php.net/supported-versions.php" target="_blank" rel="nofollow">supported version of PHP</a> and <a href="https://getcomposer.org/" target="_blank" rel="nofollow">composer</a> installed. Choose a project location, create the directory and run the initialization script provided by Satis.
+To get set up, you'll want to ensure you have a <a href="https://www.php.net/supported-versions.php" target="_blank" rel="nofollow">supported version of PHP</a> and <a href="https://getcomposer.org/" target="_blank" rel="nofollow">composer</a> installed. Choose a project location, create the directory and run the initialization script provided by Satis.
 
 ```bash
 $ mkdir ~/Projects/composer-repo
@@ -44,7 +44,7 @@ composer.phar
 
 ### Initializing Satis
 
-At this point we need to decide where our repository will be hosted. If you're not using a custom domain, the site will be hosted at a default location that uses the pattern `https://<username>.github.io/<respository-name>`. So with the username of "bilbo" and the repository name "composer-repo", the site would be hosted at `https://bilbo.github.io/composer-repo`. We'll use that username/repo combination in the example code below.
+At this point, we need to decide where our repository will be hosted. If you're not using a custom domain, the site will be hosted at a default location that uses the pattern `https://<username>.github.io/<respository-name>`. So with the username of "bilbo" and the repository name "composer-repo", the site would be hosted at `https://bilbo.github.io/composer-repo`. We'll use that username/repo combination in the example code below.
 
 To initialize the repository, we'll use a built-in command:
 
@@ -89,7 +89,7 @@ Since we want to build the site to the `docs/` directory by default, we can add 
 
 ### Generating the Site
 
-We're now ready to build our project and make our first commit. The site won't have any packages listed, but this will allow us to make sure everything is working as expect.
+We're now ready to build our project and make our first commit. The site won't have any packages listed, but this will allow us to make sure everything is working as expected.
 
 ```bash
 $ php bin/satis build
@@ -109,7 +109,7 @@ docs/
   packages.json
 ```
 
-It will include an index page and a directory named `include/` that will have the JSON files that describe each of your packages. Since we currently don't have any packages, only the `all$<hash>.json` file is currently in this directory. Let's go ahead and finish setting up by committing our code to a repository (this assumes you've already setup the GitHub repository).
+It will include an index page and a directory named `include/` that will have the JSON files that describe each of your packages. Since we currently don't have any packages, only the `all$<hash>.json` file is currently in this directory. Let's go ahead and finish setting up by committing our code to a repository (this assumes you've already set up the GitHub repository).
 
 ```bash
 $ git add --all
@@ -120,7 +120,7 @@ $ git push -u -f origin main
 
 ## GitHub Pages
 
-Now that we have the repository and the initial HTML created, we need to get the site up and running on GitHub using their Pages feature. As noted above, for this example we'll be using the `docs/` directory to store our HTML files, which is a well established pattern for hosting GitHub pages. To get things setup, head to the Settings page of your repository and select "Pages" from the left navigation. You should be presented with the following options:
+Now that we have the repository and the initial HTML created, we need to get the site up and running on GitHub using their Pages feature. As noted above, for this example we'll be using the `docs/` directory to store our HTML files, which is a well-established pattern for hosting GitHub pages. To get things set up, head to the Settings page of your repository and select "Pages" from the left navigation. You should be presented with the following options:
 
 ![Screenshot of GitHub Pages settings](gh-pages.jpg)
 _Screenshot of the default GitHub Pages settings_
