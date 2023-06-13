@@ -11,7 +11,7 @@ image:
 redirect_from:
   - /posts/managing-automating-composer/
 ---
-A core goal of any DevOps configuration is to minimize the the time spent on repetitive, predictable and easily performed tasks through automation. In our article on [Creating a Private Composer Repository on GitHub]({% post_url 2023-06-05-private-composer-github %}), we setup a composer repository using Satis and setup hosting using GitHub pages. In this article, we'll go over how to add, update and archive packages from the repository, and then automate some of those tasks using GitHub Workflows.
+A core goal of any DevOps configuration is to minimize the the time spent on repetitive, predictable and easily performed tasks through automation. In our article on [Creating a Private Composer Repository on GitHub]({% post_url 2023-06-12-private-composer-github %}), we setup a composer repository using Satis and setup hosting using GitHub pages. In this article, we'll go over how to add, update and archive packages from the repository, and then automate some of those tasks using GitHub Workflows.
 
 ## Managing the Repository using Satis
 
