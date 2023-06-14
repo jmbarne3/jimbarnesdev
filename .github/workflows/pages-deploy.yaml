@@ -8,7 +8,7 @@ on:
       - README.md
       - LICENSE
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 11 * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
