@@ -33,7 +33,7 @@ One major problem you will pretty quickly run into with this process is that it'
 
 Generating personal access tokens (PAT) is [very well documented by GitHub within their documentation](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens), but there are a few things to keep in mind when creating one.
 
-> If you're setting up this automation for an organization, you will likely need to agree to a particular set of terms of use that GitHub will prompt you with. this probably isn't an issue, but you may want to check with your organization's legal counsel about it before accepting.
+> If you're setting up this automation for an organization, you will likely need to agree to a particular set of terms of use that GitHub will prompt you with. This probably isn't an issue, but you may want to check with your organization's legal counsel about it before accepting.
 >
 > Additionally, you may want to consider creating the PAT using a service account that isn't tied to a particular user to prevent loosing access to the token if the employee leaves.
 {: .prompt-warning }
