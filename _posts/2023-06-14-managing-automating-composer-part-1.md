@@ -3,7 +3,7 @@ title: Managing and Automating Your Composer Packages - Part 1
 description: Automate adding and updating packages within your private composer repository using GitHub workflows.
 date: 2023-06-14 06:00:00 -0400
 categories: [DevOps, Package Management]
-tags: [php, composer, packagist, automation, github pages]
+tags: [php, composer, packagist, automation, github workflows, github actions]
 img_path: /assets/images/posts/managing-automating-composer-part-1/
 image:
   path: hero.jpg
