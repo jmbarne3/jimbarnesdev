@@ -109,7 +109,7 @@ If you're using a MySQL or PostgreSQL database, go ahead and set up the database
 
 ### Configuration
 
-We're going to using a `.env` file for storing our project secrets, so we will need to go ahead and create it and install the module we'll be using to read it. Create a file with the following information in it and name it `.env`.
+We're going to be using a `.env` file for storing our project secrets, so we will need to go ahead and create it and install the module we'll be using to read it. Create a file with the following information in it and name it `.env`.
 
 ```text
 SECRET_KEY=YOURREALLYLONGSECRETKEYFORSALTINGSECRETS
@@ -120,8 +120,7 @@ DB_HOST=localhost
 DB_PORT=5432
 ```
 {: file=".env"}
-
-In order to consume the `.env` file we'll install one additional dependency. Add `"django-environ"` to your `pyproject.toml` dependency array and rerun `pip install .` to install the additional dependency.
+To consume the `.env` file we'll install one additional dependency. Add `"django-environ"` to your `pyproject.toml` dependency array and rerun `pip install .` to install the additional dependency.
 
 Let's go ahead and edit the `rpgapi/settings.py` file and make sure of our new environment variables.
 
@@ -141,11 +140,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import environ
 
-env = environ.Env()
-environ.Env.read_env()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env)
 ```
 
 Above, we go ahead and import the `environ` module on line 14 and initialize it for use on lines 16 and 17. We can now go through the settings file replacing secret values with calls to the `env` function:
@@ -216,7 +215,7 @@ To confirm everything is working, you can go ahead and attempt to run the applic
 ![Po-Ta-Toes!](hobbit-sam2015.gif){: .right }
 Now that we have the foundation of the project in place, we can move on to the meat and potatoes: our data models. We will be very broadly laying out our data structure in today's post, getting into more fine details in future posts. For now, we'll concentrate on creating a "Character" model that represents a single game character and covers their most basic attributes.
 
-Before we can get started creating a model, we need to create an "app" within our Django project and add it in to the list of installed apps. We'll call this app "characters" and create it using another Django command: `python manage.py startapp characters`. When you run this, a new directory named `characters/` will appear in your project, with the following files within it:
+Before we can get started creating a model, we need to create an "app" within our Django project and add it to the list of installed apps. We'll call this app "characters" and create it using another Django command: `python manage.py startapp characters`. When you run this, a new directory named `characters/` will appear in your project, with the following files within it:
 
 ```console
 characters/
