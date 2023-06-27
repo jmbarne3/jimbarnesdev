@@ -83,7 +83,7 @@ Let's go ahead and initialize a git repository:
 (rpgapi) $ git init
 ```
 
-And we can add the requisite entries to a `.gitignore` file. I like [this template](https://github.com/jpadilla/django-project-template/blob/master/.gitignore) as a starting place for my `.gitignore`.
+And we can add the requisite entries to a `.gitignore` file. I like [this template](https://github.com/jpadilla/django-project-template/blob/master/.gitignore) as a starting place for my `.gitignore`. If you're using a virtual environment, you'll want to be sure to add the `.venv/` directory to your `.gitignore`, as you do not want these files tracked.
 
 ### Additional Dependencies
 
