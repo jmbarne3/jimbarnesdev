@@ -381,4 +381,6 @@ Save this and reload the list screen. You should immediately see your character 
 
 This post was primarily foundational and I think will be helpful to those who haven't worked within Django before. However, we've only scratched the surface and will be diving much deeper when we return to the topic in a couple of weeks. In that post, we will take a look at expanding our model to include some RPG elements like experience points and levels, deciding how or when we should calculate stats versus storing them, and then begin creating our serializers that will use to interface between our API endpoints and our model.
 
+The [full source code](https://github.com/jmbarne3/rpgapi/tree/v0.1.0) for this post can be found on GitHub! As I release each new post in this series, I will create a new release in GitHub so you can pull down the latest changes.
+
 In next week's post, I'll be sharing my thoughts on our use of AI within production environments and the ethics, benefits and dangers surrounding its use.
