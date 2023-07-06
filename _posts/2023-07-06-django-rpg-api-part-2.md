@@ -1,7 +1,7 @@
 ---
 title: Creating an RPG API in Python Django (Part 2) - Serializers and Properties
 description: We add serializers and our initial endpoints to our project. 
-date: 2023-07-11 06:00:00 -0400
+date: 2023-07-06 06:00:00 -0400
 categories: [Development, Python]
 tags: [python, django, database, rest api, postgresql, serializers]
 img_path: /assets/images/posts/django-rpg-api-part-2/
