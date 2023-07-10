@@ -272,6 +272,109 @@ With 50 experience points, our character should be at level 2. However, we're at
 
 While this method isn't fool-proof - it's still possible to set the `level` to whatever we want from within the Django code itself, and it will not update until the `save()` method is called - since our interactions with the model will almost always be through the API endpoints, this is a pretty simple and effective way of creating a field with a dynamically set value.
 
+### Let's Clamp Down on Things
+
+Currently, our leveling system would allow a player to level up infinitely, or at least until our experience points reached a number too large to be stored in our database. We likely want to end our leveling at some known constant, so we'll need to account for that within our code. The easiest way to do this is to limit our level between a minimum and a maximum. We know that we don't want our characters to have a negative or zero level, so the minimum is 1. Most games have a maximum level of 99, so I think we'll continue that tradition here.
+
+A clamp function usually looks something like this:
+
+```python
+def clamp(value: int, min_val: int, max_val: int) -> int:
+    if value <= min_val:
+      return min_val
+    if value >= max_val:
+      return max_val
+
+    return value
+```
+
+It's common to see Python developers spring for a one-liner here, usually with the argument that it will be more performant. A common clamping technique is to use a combination of the `min` and `max` functions to clamp a value. I used this technique pretty often for clamping in the past until one day I decided to test the performance difference for myself. We'll cover benchmarking in a future post, but I've gone ahead and set up a benchmark using the [`rich-bench` library](https://github.com/tonybaloney/rich-bench) and created the following test:
+
+```python
+def clamp_naive(value: int, min_val: int, max_val: int) -> int:
+    if value <= min_val:
+        return min_val
+    if value >= max_val:
+        return max_val
+
+    return value
+
+def clamp_min_max(value: int, min_val: int, max_val: int) -> int:
+    return max(min_val, min(value, max_val))
+
+def clamp_values_naive():
+    """Clamps values using naive approach"""
+    for val in range(-50_000, 50_000):
+        clamp_naive(val, 1, 99)
+
+def clamp_values_min_max():
+    """Clamps values using min_max approach"""
+    for val in range(-50_000, 50_000):
+        clamp_min_max(val, 1, 99)
+
+__benchmarks__ = [
+    (clamp_values_naive, clamp_values_min_max, "Clamping by min_max instead of naive function"),
+    (clamp_values_min_max, clamp_values_naive, "Clamping by naive function instead of min_max")
+]
+```
+
+We get the following results from this benchmark:
+
+<style>
+  .benchmark-table tr td:nth-child(1) { color: var(--link-color); }
+
+  .benchmark-table tr:nth-child(1) td:nth-child(5),
+  .benchmark-table tr:nth-child(1) td:nth-child(6),
+  .benchmark-table tr:nth-child(1) td:nth-child(7) { color: var(--prompt-danger-icon-color); }
+
+  .benchmark-table tr:nth-child(2) td:nth-child(5),
+  .benchmark-table tr:nth-child(2) td:nth-child(6),
+  .benchmark-table tr:nth-child(2) td:nth-child(7) { color: var(--prompt-tip-icon-color); }
+</style>
+
+| Benchmark | Min | Max | Mean | Min (+) | Max (+) | Mean (+) |
+|---|---|---|---|---|---|---|
+| Clamping by min_max instead of naive function | 0.062 | 0.065 | 0.063 | 0.222 (-3.6x) | 0.256 (-3.9x) | 0.241 (-3.8x) |
+| Clamping by naive function instead of min_max | 0.208 | 0.222 | 0.215 | 0.061 (3.4x) | 0.062 (3.6x) | 0.062 (3.5x) |
+{: .benchmark-table}
+
+I chose to loop over a range of values to test to remove the need to generate a random number or to have to pre-generate a list of numbers to test. Since both functions loop over the same range of numbers, we're able to compare apples to apples. Look at the results, there is over a 3x difference in performance between the "naive" approach and the one-liner. In this particular case, going with the more readable approach is also going to grant us better performance.
+
+Where you put your utility classes is up to you, but I tend to keep them in a `utils.py` file, either in the root module of my project - in this case, that would be the `rpgapi/` directory - or in the module that is specifically using the utility class. Since we're likely only going to be using a single module in this project, I'll go ahead and create the file under the `characters/` module.
+
+```python
+def clamp(value: int, min_val: int, max_val: int) -> int:
+    """
+    Clamps the value between the provided minimum and maximum.
+
+    :param value: The value to clamp
+    :param min_val: The minimum value to allow
+    :param max_val: The maximum value to allow
+    :return: Returns the value clamped between the minimum and maximum
+    """
+    if value <= min_val:
+        return min_val
+    if value >= max_val:
+        return max_val
+    return value
+```
+{: file="characters/utils.py" }
+
+We can now import our function and use it in our `get_level_from_xp` function to clamp the value.
+
+```python
+from .utils import clamp
+
+...
+
+    def get_level_from_xp(self, xp: int) -> int:
+        level = math.floor(
+            (self.experience_points / 50) ** (1 / 1.6)
+        ) + 1
+        return clamp(level, 1, 99)
+```
+{: file="characters/models.py" }
+
 ## Final Thoughts
 
 In spite of Django being a relatively opinionated framework that works best when used as intended, it does have a remarkable amount of flexibility to it when you begin to understand how things are working under the hood. We were able to leverage the `editable` and `save()` overwriting features of Django to create a "read-only" field that is dynamically set. While our solution isn't perfect, it solves the problem in a fairly acceptable way and has the benefit of allowing us to now be able to sort and filter our records using our `level` field.
