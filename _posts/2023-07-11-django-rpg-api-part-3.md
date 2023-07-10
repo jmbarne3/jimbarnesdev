@@ -87,11 +87,14 @@ This seems like a very large jump in the number of enemies needed to move up to 
 
 For the sake of our project, I'll be using the formula with a very slight tweak:
 
-$$ xp = \bigl\lfloor50 * (level - 1)^{1.6}\bigr\rfloor $$
+$$ xp = \bigl\lceil50 * (level - 1)^{1.6}\bigr\rceil $$
 
 Many of the older Final Fantasy games used a formula with an exponent of 1.5, but this seemed like a little too gentle of a slope, so I've increased it ever so slightly.
 
-Also, once you stop using nice round exponents like 2, you're going to run into a lot of decimals while doing this math. From this point out, we'll be applying a floor to all values to ensure we're getting whole numbers.
+Also, once you stop using nice round exponents like 2, you're going to run into a lot of decimals while doing this math. From this point out, we'll be applying a ceiling or a floor to all values to ensure we're getting whole numbers.
+
+> When we reverse this function to find the level from some number of experience points, we'll need to reverse the ceiling operation to a floor.
+{: .prompt-info }
 
 Before we code this up, we do have one more thing to work out. We've written our equation that defines when each new level should be reached, but how do we determine the reverse? Given a particular experience points value, what level is our character currently? If - like myself - it's been a while since you've cracked open an algebra textbook, just remember to move things around an equation, we just need to make sure to balance things by doing the inverse operation. To remove the `baseXp` from one side of the equation, we need to divide it out. If we do that on one side, we have to do it on the other side. In the end, we end up with the following:
 
