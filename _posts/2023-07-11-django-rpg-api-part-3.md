@@ -13,6 +13,9 @@ math: true
 
 In our [last post]({% post_url 2023-07-06-django-rpg-api-part-2 %}), we set up our initial serializers and views for our Character model. Today, we'll start adding features to our Character model, focusing on setting up an experience point and leveling system.
 
+> If you'd like to follow along, you can find the [complete source code from last week on GitHub](https://github.com/jmbarne3/rpgapi/tree/v0.2.0). Clone down the repository and follow the setup instructions in the readme.
+{: .prompt-info }
+
 Most, if not almost all, RPGs have some sort of leveling or progression system. There are a plethora of leveling systems out there, but most try to create a feeling of progression. The amount of experience points you need to attain each next level increases while, often, the amount of experience points you gain from each encounter also increases as you face more difficult enemies.
 
 In reality, the number of enemies you need to defeat to level may not increase significantly - this depends on the game and the objectives of the designers - but the _numbers_ will most certainly increase. This gives you a feeling of accomplishment as you see not just the amount of damage you deal or your health increase over time, but the number of experience points and money you receive from battles increase.
