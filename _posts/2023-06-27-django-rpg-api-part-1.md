@@ -102,7 +102,7 @@ dependencies = [
   "mysqlclient" # If using MySQL
 ]
 ```
-{ file="pyproject.toml" }
+{: file="pyproject.toml" }
 
 With your dependencies defined, you can install them using `pip install .`.
 
