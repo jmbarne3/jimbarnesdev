@@ -102,6 +102,7 @@ dependencies = [
   "mysqlclient" # If using MySQL
 ]
 ```
+{ file="pyproject.toml" }
 
 With your dependencies defined, you can install them using `pip install .`.
 
@@ -146,6 +147,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env)
 ```
+{: file="rpgapi/settings.py" }
 
 Above, we go ahead and import the `environ` module on line 14 and initialize it for use on lines 18 and 19. We can now go through the settings file replacing secret values with calls to the `env` function:
 
@@ -169,6 +171,7 @@ DATABASES = {
     }
 }
 ```
+{: file="rpgapi/settings.py" }
 
 Now that everything is configured, we can go ahead and test connectivity and get the initial migrations applied:
 
@@ -265,6 +268,7 @@ class Character(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
 ```
+{: file="characters/models.py" }
 
 We may end up not keeping the description long term, but it provides us a good excuse to look at the main two text types fields Django provides out of the box: the [`CharField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#charfield) and the [`TextField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#textfield). In addition to these two, there are several formatted text type fields such as the [`EmailField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#emailfield) and [`URLField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#urlfield), which are essential `CharField`s with additional Validators to ensure the text being written to the field is an email or URL, respectively.
 
