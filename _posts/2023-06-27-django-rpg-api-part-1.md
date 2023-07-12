@@ -147,7 +147,7 @@ env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env)
 ```
 
-Above, we go ahead and import the `environ` module on line 14 and initialize it for use on lines 16 and 17. We can now go through the settings file replacing secret values with calls to the `env` function:
+Above, we go ahead and import the `environ` module on line 14 and initialize it for use on lines 18 and 19. We can now go through the settings file replacing secret values with calls to the `env` function:
 
 ```python
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -266,7 +266,7 @@ class Character(models.Model):
     description = models.TextField(null=True, blank=True)
 ```
 
-We may end up not keeping the description long term, but it provides us a god excuse to look at the main two text types fields Django provides out of the box: the [`CharField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#charfield) and the [`TextField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#textfield). In addition to these two, there are several formatted text type fields such as the [`EmailField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#emailfield) and [`URLField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#urlfield), which are essential `CharField`s with additional Validators to ensure the text being written to the field is an email or URL, respectively.
+We may end up not keeping the description long term, but it provides us a good excuse to look at the main two text types fields Django provides out of the box: the [`CharField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#charfield) and the [`TextField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#textfield). In addition to these two, there are several formatted text type fields such as the [`EmailField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#emailfield) and [`URLField`](https://docs.djangoproject.com/en/4.2/ref/models/fields/#urlfield), which are essential `CharField`s with additional Validators to ensure the text being written to the field is an email or URL, respectively.
 
 The `CharField` requires the `max_length` argument to be provided. The `TextField` on the other hand can have a `max_length` set, and this value will be applied to the validation on the front-end but is not enforced on the database level. This is due to the database backend using a different column type in most cases, with `CharField`s being `VARCHAR(n)` fields and `TextField`s being `TEXT` fields in the case of MySQL.
 
